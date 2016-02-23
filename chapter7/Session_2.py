@@ -85,3 +85,14 @@ def mdclassify(observation,tree):
 
 mdclassify(['google',None,'yes',None],tree)
 mdclassify(['google','France',None,None],tree)
+
+#call http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=X1-ZWz19u6ad6um17_6a5jo&2114&address=2114+Bigelow+Ave&citystatezip=Seattle%2C+WA
+
+import zillow
+zillow.zwskey='X1-ZWz19u6ad6um17_6a5jo'
+housedata=zillow.getpricelist()
+reload(treepredict)
+housetree=treepredict.buildtree(housedata,scoref=treepredict.variance)
+treepredict.drawtree(housetree,'housetree.jpg')
+
+
