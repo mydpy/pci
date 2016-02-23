@@ -1,7 +1,7 @@
 import xml.dom.minidom
 import urllib2
 
-zwskey="YOUR API KEY"
+zwskey='X1-ZWz19u6ad6um17_6a5jo'
 
 def getaddressdata(address,city):
   escad=address.replace(' ','+')
@@ -10,7 +10,7 @@ def getaddressdata(address,city):
   doc=xml.dom.minidom.parseString(urllib2.urlopen(url).read())
   code=doc.getElementsByTagName('code')[0].firstChild.data
   if code!='0': return None
-  if 1:
+  try:
     zipcode=doc.getElementsByTagName('zipcode')[0].firstChild.data
     use=doc.getElementsByTagName('useCode')[0].firstChild.data
     year=doc.getElementsByTagName('yearBuilt')[0].firstChild.data
@@ -19,7 +19,7 @@ def getaddressdata(address,city):
     bed=doc.getElementsByTagName('bedrooms')[0].firstChild.data
     rooms=1 #doc.getElementsByTagName('totalRooms')[0].firstChild.data
     price=doc.getElementsByTagName('amount')[0].firstChild.data
-  else:
+  except:
     return None
        
   return (zipcode,use,int(year),float(bath),int(bed),int(rooms),price)
