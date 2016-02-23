@@ -21,7 +21,7 @@ def classify(observation,tree):
 
 classify(['(direct)','USA','yes',5],tree)
 
-def prune(tree,mingain):
+def prune(tree,mingain, scoref=entropy):
   # If the branches aren't leaves, then prune them
   if tree.tb.results==None:
     prune(tree.tb,mingain)
@@ -39,7 +39,7 @@ def prune(tree,mingain):
       fb+=[[v]]*c
     
     # Test the reduction in entropy
-    delta=entropy(tb+fb)-(entropy(tb)+entropy(fb)/2)
+    delta=scoref(tb+fb)-(scoref(tb)+scoref(fb)/2)
 
     if delta<mingain:
       # Merge the branches
@@ -91,8 +91,35 @@ mdclassify(['google','France',None,None],tree)
 import zillow
 zillow.zwskey='X1-ZWz19u6ad6um17_6a5jo'
 housedata=zillow.getpricelist()
+
+cleansed_housedata=[]
+for row in housedata: 
+   ....:     if row != None: 
+   ....:         cleansed_housedata.append(row)
+
 reload(treepredict)
-housetree=treepredict.buildtree(housedata,scoref=treepredict.variance)
+
+housetree=treepredict.buildtree(cleansed_housedata,scoref=treepredict.variance)
 treepredict.drawtree(housetree,'housetree.jpg')
+
+new_housetree = housetree
+prune(new_housetree,0.1, scoref=treepredict.variance)
+printtree(new_housetree)
+prune(new_housetree,1.0, scoref=treepredict.variance)
+printtree(new_housetree)
+prune(new_housetree,2.0, scoref=treepredict.variance)
+printtree(new_housetree)
+
+
+treepredict.drawtree(new_housetree,'new_housetree.jpg')
+
+
+
+
+
+
+
+
+
 
 
