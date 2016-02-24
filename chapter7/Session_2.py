@@ -94,10 +94,9 @@ housedata=zillow.getpricelist()
 
 cleansed_housedata=[]
 for row in housedata: 
-   ....:     if row != None: 
-   ....:         cleansed_housedata.append(row)
+  if row != None: 
+    cleansed_housedata.append(row)
 
-reload(treepredict)
 
 housetree=treepredict.buildtree(cleansed_housedata,scoref=treepredict.variance)
 treepredict.drawtree(housetree,'housetree.jpg')
